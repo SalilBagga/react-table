@@ -23,6 +23,7 @@ export default function TablePage() {
   });
   const [displaydata, setDisplaydata] = useState(null);
   const [deletenable, setDeletenable] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   const checkboxhandle = (id) => {
     let obj = data[id];
@@ -86,6 +87,18 @@ export default function TablePage() {
     setData([...data]);
   };
 
+  useEffect(() => {
+    if (data != null) {
+      let filtered = data.filter((entry) =>
+        Object.values(entry).some((val) => typeof val === 'string' && val.includes(keyword))
+      );
+      filtered = filtered.slice(objetindex.current, objetindex.end);
+      console.log(filtered);
+      console.log(keyword);
+      setDisplaydata(filtered);
+    }
+  }, [keyword]);
+
   return (
     <div>
       {error && (
@@ -97,7 +110,7 @@ export default function TablePage() {
       )}
       {data && (
         <div>
-          <Search />
+          <Search setKeyword={setKeyword} />
           <Table
             checkboxhandle={checkboxhandle}
             displaydata={displaydata}
