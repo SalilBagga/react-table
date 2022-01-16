@@ -6,44 +6,85 @@ import { useFetchdata } from '../hooks/useFetchData';
 //Components
 import Table from '../components/Table';
 import Pagination from '../components/Pagination';
+import Search from '../components/Search';
 export default function TablePage() {
   const limit = 10;
 
-  const { error, invalidInput, data } = useFetchdata();
-  // const [currentindex, setCurrentindex] = useState(0);
-  // const [endindex, setEndindex] = useState(limit);
-  const [objetindex, setObjectindex] = useState({ current: 0, end: limit });
+  const { error, data, setData } = useFetchdata();
+  const [objetindex, setObjectindex] = useState({
+    current_page_no: 1,
+    current: 0,
+    end: limit,
+  });
+  const [editobject, setEditobject] = useState({
+    name: '',
+    email: '',
+    role: '',
+  });
   const [displaydata, setDisplaydata] = useState(null);
-  const [deletearray, setDeletearray] = useState([]);
+  const [deletenable, setDeletenable] = useState(false);
 
   const checkboxhandle = (id) => {
-    var checkBox = document.getElementById(id);
-    console.log(checkBox.checked);
-    if (checkBox.checked === true) {
-      setDeletearray((prev) => {
-        return [...prev, id];
-      });
-    } else {
-      setDeletearray((prevEvents) => {
-        return prevEvents.filter((event) => {
-          return id !== event.id;
-        });
-      });
-    }
+    let obj = data[id];
+    obj.isDelete = !obj.isDelete;
+    data[id] = obj;
+    console.log(data[id]);
+    setData([...data]);
 
-    console.log(deletearray);
+    if (!deletenable) {
+      setDeletenable(!deletenable);
+    }
   };
+
   useEffect(() => {
     const displayposts = () => {
       let post = data.slice(objetindex.current, objetindex.end);
       setDisplaydata(post);
-      let start = Math.abs(Math.floor((objetindex.current - 1) / limit) + 1);
-      console.log(objetindex.current, objetindex.end, objetindex);
     };
     if (data != null) {
       displayposts();
     }
-  }, [data, objetindex.current, objetindex.end]);
+  }, [data, objetindex]);
+
+  const handleSelectedDelete = () => {
+    setData((prevstate) => {
+      console.log(prevstate);
+      return prevstate.filter((event) => {
+        return !event.isDelete;
+      });
+    });
+  };
+
+  const handleSingleDelete = (id) => {
+    setData((prevEvents) => {
+      return prevEvents.filter((event) => {
+        return id !== event.id;
+      });
+    });
+  };
+
+  const handleSingleEdit = (id) => {
+    let obj = data[id];
+    obj.isEdit = !obj.isEdit;
+    data[id] = obj;
+    setData([...data]);
+
+    if (!deletenable) {
+      setDeletenable(!deletenable);
+    }
+  };
+
+  const handleEditDone = (id) => {
+    let obj = data[id];
+    obj.name = editobject.name;
+    obj.role = editobject.role;
+    obj.email = editobject.email;
+    obj.isEdit = !obj.isEdit;
+    console.log(obj);
+
+    data[id] = obj;
+    setData([...data]);
+  };
 
   return (
     <div>
@@ -56,9 +97,18 @@ export default function TablePage() {
       )}
       {data && (
         <div>
-          <Table checkboxhandle={checkboxhandle} displaydata={displaydata} />
+          <Search />
+          <Table
+            checkboxhandle={checkboxhandle}
+            displaydata={displaydata}
+            handleSingleDelete={handleSingleDelete}
+            handleSingleEdit={handleSingleEdit}
+            setEditobject={setEditobject}
+            handleEditDone={handleEditDone}
+          />
           <Pagination
-            deletearray={deletearray}
+            handleSelectedDelete={handleSelectedDelete}
+            deletenable={deletenable}
             objetindex={objetindex}
             setObjectindex={setObjectindex}
             datalength={data.length}

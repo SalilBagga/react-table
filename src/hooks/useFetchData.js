@@ -17,7 +17,12 @@ export const useFetchdata = () => {
         if (!res.ok) {
           throw new Error(res.statusText);
         }
+
         const dataj = await res.json();
+        for (let obj of dataj) {
+          obj.isDelete = false;
+          obj.isEdit = false;
+        }
         setData(dataj);
         setError(null);
         setInvalidInput(false);
@@ -29,5 +34,5 @@ export const useFetchdata = () => {
     fetchdata();
   }, []);
 
-  return { error, invalidInput, data };
+  return { error, invalidInput, data, setData };
 };
