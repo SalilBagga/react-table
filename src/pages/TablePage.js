@@ -97,7 +97,7 @@ export default function TablePage() {
       console.log(keyword);
       setDisplaydata(filtered);
     }
-  }, [keyword]);
+  }, [keyword, data, objetindex]);
 
   return (
     <div>
@@ -126,6 +126,7 @@ export default function TablePage() {
             setObjectindex={setObjectindex}
             datalength={data.length}
             limit={limit}
+            keyword={keyword}
           />
         </div>
       )}
