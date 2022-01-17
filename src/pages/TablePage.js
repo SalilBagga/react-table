@@ -22,19 +22,15 @@ export default function TablePage() {
     role: '',
   });
   const [displaydata, setDisplaydata] = useState(null);
-  const [deletenable, setDeletenable] = useState(false);
+  const [deletenable, setDeletenable] = useState(0);
   const [keyword, setKeyword] = useState('');
-
+  const [searchlength, setSerchlength] = useState(0);
   const checkboxhandle = (id) => {
     let obj = data[id];
     obj.isDelete = !obj.isDelete;
     data[id] = obj;
     console.log(data[id]);
     setData([...data]);
-
-    if (!deletenable) {
-      setDeletenable(!deletenable);
-    }
   };
 
   useEffect(() => {
@@ -44,8 +40,15 @@ export default function TablePage() {
     };
     if (data != null) {
       displayposts();
+      setDeletenable(data.length);
+      for (let obj of data) {
+        if (obj.isDelete) {
+          setDeletenable(deletenable - 1);
+          console.log('delete');
+        }
+      }
     }
-  }, [data, objetindex]);
+  }, [data, objetindex, deletenable]);
 
   const handleSelectedDelete = () => {
     setData((prevstate) => {
@@ -69,7 +72,6 @@ export default function TablePage() {
     obj.isEdit = !obj.isEdit;
     data[id] = obj;
     setData([...data]);
-
     if (!deletenable) {
       setDeletenable(!deletenable);
     }
@@ -77,25 +79,21 @@ export default function TablePage() {
 
   const handleEditDone = (id) => {
     let obj = data[id];
-    obj.name = editobject.name;
-    obj.role = editobject.role;
-    obj.email = editobject.email;
+    obj.name = editobject.name !== '' ? editobject.name : obj.name;
+    obj.role = editobject.role !== '' ? editobject.role : obj.role;
+    obj.email = editobject.email !== '' ? editobject.email : obj.email;
     obj.isEdit = !obj.isEdit;
-    console.log(obj);
-
     data[id] = obj;
     setData([...data]);
   };
 
   useEffect(() => {
-    if (data != null) {
+    if (data != null && keyword !== '') {
       let filtered = data.filter((entry) =>
         Object.values(entry).some((val) => typeof val === 'string' && val.includes(keyword))
       );
-      filtered = filtered.slice(objetindex.current, objetindex.end);
-      console.log(filtered);
-      console.log(keyword);
-      setDisplaydata(filtered);
+      setDisplaydata(filtered.slice(objetindex.current, objetindex.end));
+      setSerchlength(filtered.length);
     }
   }, [keyword, data, objetindex]);
 
@@ -124,9 +122,9 @@ export default function TablePage() {
             deletenable={deletenable}
             objetindex={objetindex}
             setObjectindex={setObjectindex}
-            datalength={data.length}
+            datalength={searchlength ? searchlength : data.length}
             limit={limit}
-            keyword={keyword}
+            searchlength={searchlength}
           />
         </div>
       )}
