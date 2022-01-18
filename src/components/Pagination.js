@@ -19,7 +19,7 @@ export default function Pagination({
   return (
     <div>
       <div className="d-flex align-items-center mb-4">
-        <div style={{ marginRight: '10%', marginLeft: '3%' }}>
+        <div style={{ marginRight: '15%', marginLeft: '3%' }}>
           <button
             onClick={() => handleSelectedDelete()}
             className=" btn btn-danger rounded-pill mt-1"
@@ -31,7 +31,7 @@ export default function Pagination({
           {objetindex.current !== 0 ? (
             <>
               <button
-                className="btn btn-primary btn-sm round-button mx-3"
+                className="btn btn-primary btn-sm round-button mx-md-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -47,7 +47,7 @@ export default function Pagination({
                 <i className="bi bi-chevron-double-left"></i>
               </button>
               <button
-                className="btn btn-primary btn-l round-button mx-3"
+                className="btn btn-primary btn-l round-button mx-md-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -65,7 +65,7 @@ export default function Pagination({
           ) : (
             <>
               <button
-                className="btn btn-secondary disabled btn-sm round-button mx-3"
+                className="btn btn-secondary disabled btn-sm round-button mx-md-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -81,7 +81,7 @@ export default function Pagination({
                 <i className="bi bi-chevron-double-left"></i>
               </button>
               <button
-                className="btn btn-secondary disabled btn-l round-button mx-3"
+                className="btn btn-secondary disabled btn-l round-button mx-md-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -104,7 +104,7 @@ export default function Pagination({
                 {objetindex.current_page_no === item ? (
                   <button
                     key={item}
-                    className="btn btn btn-outline-primary  btn- round-button mx-3"
+                    className="btn btn btn-outline-primary  btn- round-button mx-md-3"
                     onClick={() => {
                       setObjectindex((prev) => {
                         return {
@@ -120,7 +120,7 @@ export default function Pagination({
                   </button>
                 ) : (
                   <button
-                    className="btn btn-primary btn- round-button mx-3"
+                    className="btn btn-primary btn- round-button mx-md-3"
                     onClick={() => {
                       setObjectindex((prev) => {
                         return {
@@ -140,7 +140,7 @@ export default function Pagination({
           {datalength > objetindex.end ? (
             <>
               <button
-                className="btn btn-primary btn- round-button mx-3"
+                className="btn btn-primary btn- round-button mx-md-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -155,7 +155,7 @@ export default function Pagination({
                 <i className="bi bi-chevron-compact-right"></i>
               </button>
               <button
-                className="btn btn-primary  btn- round-button mx-3"
+                className="btn btn-primary  btn- round-button mx-md-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -173,7 +173,7 @@ export default function Pagination({
           ) : (
             <>
               <button
-                className="btn btn-secondary btn-sm disabl round-button mx-3"
+                className="btn btn-secondary btn-sm disabl round-button mx-md-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -188,7 +188,7 @@ export default function Pagination({
                 <i className="bi bi-chevron-compact-right"></i>
               </button>
               <button
-                className="btn btn-secondary btn-sm disable round-button mx-3"
+                className="btn btn-secondary btn-sm disable round-button mx-md-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
