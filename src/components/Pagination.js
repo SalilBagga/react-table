@@ -5,7 +5,6 @@ export default function Pagination({
   objetindex,
   setObjectindex,
   limit,
-  deletenable,
   handleSelectedDelete,
 }) {
   let pagearray = [];
@@ -18,11 +17,9 @@ export default function Pagination({
     <div>
       <div className="d-flex">
         <div style={{ marginRight: '35%' }}>
-          {deletenable !== datalength && (
-            <button onClick={() => handleSelectedDelete()} className=" btn btn-danger mt-1">
-              delete selected
-            </button>
-          )}
+          <button onClick={() => handleSelectedDelete()} className=" btn btn-danger mt-1">
+            delete selected
+          </button>
         </div>
         <div className="d-flex justify-content-center">
           {objetindex.current !== 0 && (

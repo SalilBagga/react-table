@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 //hooks
 import { useFetchdata } from '../hooks/useFetchData';
 
@@ -22,16 +21,8 @@ export default function TablePage() {
     role: '',
   });
   const [displaydata, setDisplaydata] = useState(null);
-  const [deletenable, setDeletenable] = useState(0);
   const [keyword, setKeyword] = useState('');
   const [searchlength, setSerchlength] = useState(0);
-  const checkboxhandle = (id) => {
-    let obj = data[id];
-    obj.isDelete = !obj.isDelete;
-    data[id] = obj;
-    console.log(data[id]);
-    setData([...data]);
-  };
 
   useEffect(() => {
     const displayposts = () => {
@@ -40,15 +31,18 @@ export default function TablePage() {
     };
     if (data != null) {
       displayposts();
-      setDeletenable(data.length);
-      for (let obj of data) {
-        if (obj.isDelete) {
-          setDeletenable(deletenable - 1);
-          console.log('delete');
-        }
-      }
     }
-  }, [data, objetindex, deletenable]);
+  }, [data, objetindex]);
+
+  useEffect(() => {
+    if (data != null && keyword !== '') {
+      let filtered = data.filter((entry) =>
+        Object.values(entry).some((val) => typeof val === 'string' && val.includes(keyword))
+      );
+      setDisplaydata(filtered.slice(objetindex.current, objetindex.end));
+      setSerchlength(filtered.length);
+    }
+  }, [keyword, data, objetindex]);
 
   const handleSelectedDelete = () => {
     setData((prevstate) => {
@@ -72,9 +66,6 @@ export default function TablePage() {
     obj.isEdit = !obj.isEdit;
     data[id] = obj;
     setData([...data]);
-    if (!deletenable) {
-      setDeletenable(!deletenable);
-    }
   };
 
   const handleEditDone = (id) => {
@@ -86,16 +77,13 @@ export default function TablePage() {
     data[id] = obj;
     setData([...data]);
   };
-
-  useEffect(() => {
-    if (data != null && keyword !== '') {
-      let filtered = data.filter((entry) =>
-        Object.values(entry).some((val) => typeof val === 'string' && val.includes(keyword))
-      );
-      setDisplaydata(filtered.slice(objetindex.current, objetindex.end));
-      setSerchlength(filtered.length);
-    }
-  }, [keyword, data, objetindex]);
+  const checkboxhandle = (id) => {
+    let obj = data[id];
+    obj.isDelete = !obj.isDelete;
+    data[id] = obj;
+    console.log(data[id]);
+    setData([...data]);
+  };
 
   return (
     <div>
@@ -119,7 +107,6 @@ export default function TablePage() {
           />
           <Pagination
             handleSelectedDelete={handleSelectedDelete}
-            deletenable={deletenable}
             objetindex={objetindex}
             setObjectindex={setObjectindex}
             datalength={searchlength ? searchlength : data.length}
