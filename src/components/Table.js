@@ -7,6 +7,7 @@ export default function Table({
   handleSingleEdit,
   setEditobject,
   handleEditDone,
+  multiple_checkbox,
 }) {
   return (
     <div>
@@ -15,7 +16,9 @@ export default function Table({
       <table className="table">
         <thead>
           <tr>
-            <th scope="col"></th>
+            <th scope="col">
+              <input type="checkbox" onChange={(e) => multiple_checkbox(e)} />
+            </th>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
@@ -47,6 +50,7 @@ export default function Table({
                       }
                     />
                   </td>
+
                   <td>
                     <input
                       type="text"
@@ -88,7 +92,8 @@ export default function Table({
                     <input
                       className="form-check-input"
                       type="checkbox"
-                      id={data.id}
+                      name="delete_checkbox"
+                      id={index}
                       onClick={() => checkboxhandle(index)}
                     />
                   </td>
@@ -100,7 +105,7 @@ export default function Table({
                     <button className="btn" onClick={() => handleSingleEdit(index)}>
                       <i className="bi bi-pencil"></i>
                     </button>
-                    <button className="btn" onClick={() => handleSingleDelete(data.id)}>
+                    <button className="btn text-danger" onClick={() => handleSingleDelete(data.id)}>
                       <i className="bi bi-trash"></i>
                     </button>
                   </td>

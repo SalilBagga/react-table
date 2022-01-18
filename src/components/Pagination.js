@@ -1,5 +1,8 @@
 import React from 'react';
 
+//CSS
+import './Pagination.css';
+
 export default function Pagination({
   datalength,
   objetindex,
@@ -15,17 +18,20 @@ export default function Pagination({
 
   return (
     <div>
-      <div className="d-flex">
-        <div style={{ marginRight: '35%' }}>
-          <button onClick={() => handleSelectedDelete()} className=" btn btn-danger mt-1">
+      <div className="d-flex align-items-center mb-4">
+        <div style={{ marginRight: '10%', marginLeft: '3%' }}>
+          <button
+            onClick={() => handleSelectedDelete()}
+            className=" btn btn-danger rounded-pill mt-1"
+          >
             delete selected
           </button>
         </div>
         <div className="d-flex justify-content-center">
-          {objetindex.current !== 0 && (
+          {objetindex.current !== 0 ? (
             <>
               <button
-                className="btn btn-primary   mr-1"
+                className="btn btn-primary btn-sm round-button mx-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -41,7 +47,41 @@ export default function Pagination({
                 <i className="bi bi-chevron-double-left"></i>
               </button>
               <button
-                className="btn btn-primary  mx-1"
+                className="btn btn-primary btn-l round-button mx-3"
+                onClick={() => {
+                  setObjectindex((prev) => {
+                    return {
+                      ...prev,
+                      current_page_no: objetindex.current_page_no - 1,
+                      current: objetindex.current - limit,
+                      end: objetindex.end - limit,
+                    };
+                  });
+                }}
+              >
+                <i className="bi bi-chevron-left"></i>
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="btn btn-secondary disabled btn-sm round-button mx-3"
+                onClick={() => {
+                  setObjectindex((prev) => {
+                    return {
+                      ...prev,
+
+                      current_page_no: 1,
+                      current: 0,
+                      end: limit,
+                    };
+                  });
+                }}
+              >
+                <i className="bi bi-chevron-double-left"></i>
+              </button>
+              <button
+                className="btn btn-secondary disabled btn-l round-button mx-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -64,7 +104,7 @@ export default function Pagination({
                 {objetindex.current_page_no === item ? (
                   <button
                     key={item}
-                    className="btn btn-danger"
+                    className="btn btn btn-outline-primary  btn- round-button mx-3"
                     onClick={() => {
                       setObjectindex((prev) => {
                         return {
@@ -80,7 +120,7 @@ export default function Pagination({
                   </button>
                 ) : (
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-primary btn- round-button mx-3"
                     onClick={() => {
                       setObjectindex((prev) => {
                         return {
@@ -97,10 +137,10 @@ export default function Pagination({
                 )}
               </div>
             ))}
-          {datalength > objetindex.end && (
+          {datalength > objetindex.end ? (
             <>
               <button
-                className="btn btn-primary mx-1"
+                className="btn btn-primary btn- round-button mx-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
@@ -115,7 +155,40 @@ export default function Pagination({
                 <i className="bi bi-chevron-compact-right"></i>
               </button>
               <button
-                className="btn btn-primary   mr-1"
+                className="btn btn-primary  btn- round-button mx-3"
+                onClick={() => {
+                  setObjectindex((prev) => {
+                    return {
+                      ...prev,
+                      current_page_no: pagearray.length,
+                      current: datalength - limit,
+                      end: datalength,
+                    };
+                  });
+                }}
+              >
+                <i className="bi bi-chevron-double-right"></i>
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="btn btn-secondary btn-sm disabl round-button mx-3"
+                onClick={() => {
+                  setObjectindex((prev) => {
+                    return {
+                      ...prev,
+                      current_page_no: objetindex.current_page_no + 1,
+                      current: objetindex.current + limit,
+                      end: objetindex.end + limit,
+                    };
+                  });
+                }}
+              >
+                <i className="bi bi-chevron-compact-right"></i>
+              </button>
+              <button
+                className="btn btn-secondary btn-sm disable round-button mx-3"
                 onClick={() => {
                   setObjectindex((prev) => {
                     return {
