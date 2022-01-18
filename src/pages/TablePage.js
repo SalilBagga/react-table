@@ -89,15 +89,15 @@ export default function TablePage() {
     var checkboxlist = document.getElementsByName('delete_checkbox');
     console.log(allcheckbox);
     if (allcheckbox) {
-      for (var i in checkboxlist) {
-        if (checkboxlist[i].checked == false) {
+      for (let i in checkboxlist) {
+        if (checkboxlist[i].checked === false) {
           checkboxlist[i].checked = true;
           checkboxhandle(checkboxlist[i].id);
         }
       }
     } else {
-      for (var i in checkboxlist) {
-        if (checkboxlist[i].checked == true) {
+      for (let i in checkboxlist) {
+        if (checkboxlist[i].checked === true) {
           checkboxlist[i].checked = false;
           checkboxhandle(checkboxlist[i].id);
         }
