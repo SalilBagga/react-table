@@ -35,18 +35,23 @@ export default function TablePage() {
   }, [data, objetindex]);
 
   useEffect(() => {
-    if (data != null && keyword !== '') {
-      let filtered = data.filter((entry) =>
-        Object.values(entry).some((val) => typeof val === 'string' && val.includes(keyword))
-      );
-      setDisplaydata(filtered.slice(objetindex.current, objetindex.end));
-      setSerchlength(filtered.length);
+    if (data != null) {
+      if (keyword !== '') {
+        let filtered = data.filter((entry) =>
+          Object.values(entry).some((val) => typeof val === 'string' && val.includes(keyword))
+        );
+        setDisplaydata(filtered.slice(objetindex.current, objetindex.end));
+        setSerchlength(filtered.length);
+      } else {
+        let post = data.slice(objetindex.current, objetindex.end);
+        setDisplaydata(post);
+        setSerchlength(data.length);
+      }
     }
   }, [keyword, data, objetindex]);
 
   const handleSelectedDelete = () => {
     setData((prevstate) => {
-      console.log(prevstate);
       return prevstate.filter((event) => {
         return !event.isDelete;
       });
@@ -81,13 +86,11 @@ export default function TablePage() {
     let obj = data[id];
     obj.isDelete = !obj.isDelete;
     data[id] = obj;
-    console.log(data[id]);
     setData([...data]);
   };
   const multiple_checkbox = (e) => {
     const allcheckbox = e.target.checked;
     var checkboxlist = document.getElementsByName('delete_checkbox');
-    console.log(allcheckbox);
     if (allcheckbox) {
       for (let i in checkboxlist) {
         if (checkboxlist[i].checked === false) {
@@ -132,7 +135,6 @@ export default function TablePage() {
             setObjectindex={setObjectindex}
             datalength={searchlength ? searchlength : data.length}
             limit={limit}
-            searchlength={searchlength}
           />
         </div>
       )}

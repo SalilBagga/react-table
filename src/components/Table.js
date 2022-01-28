@@ -11,8 +11,6 @@ export default function Table({
 }) {
   return (
     <div>
-      <form id="formid"></form>
-
       <table className="table">
         <thead>
           <tr>
@@ -27,7 +25,7 @@ export default function Table({
           </tr>
         </thead>
         <tbody>
-          {displaydata &&
+          {displaydata ? (
             displaydata.map((data, index) =>
               data.isEdit ? (
                 <tr key={data.id}>
@@ -58,9 +56,7 @@ export default function Table({
                       id="email"
                       defaultValue={data.email}
                       form="formid"
-                      onChange={(e) =>
-                        e.target.value ? console.log(e.target.value) : console.log('no changes')
-                      }
+                      onChange={(e) => e.target.value}
                     />
                   </td>
                   <td>
@@ -111,7 +107,14 @@ export default function Table({
                   </td>
                 </tr>
               )
-            )}
+            )
+          ) : (
+            <tr>
+              <td colSpan={5}>
+                <h4>No Records Available</h4>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

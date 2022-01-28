@@ -11,7 +11,9 @@ export default function Search({ setKeyword }) {
           <input
             className="form-control"
             type="text"
-            onChange={(e) => setKeyword(e.target.value)}
+            onChange={(e) => {
+              setKeyword(e.target.value.trim());
+            }}
             placeholder="Search by Name / ID / Role"
           />
         </div>
